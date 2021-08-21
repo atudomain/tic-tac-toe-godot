@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://FieldButton.gd" type="Script" id=1]
+
+[node name="FieldButton" type="TextureButton"]
+margin_right = 130.0
+margin_bottom = 130.0
+rect_min_size = Vector2( 130, 130 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+shortcut_in_tooltip = false
+expand = true
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
