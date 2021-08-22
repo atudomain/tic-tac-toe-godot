@@ -11,6 +11,10 @@ onready var TEXTURES = {
 	0: null,
 	1: preload("res://assets/13GreenCircle.png")
 }
+onready var WIN_TEXTURES = {
+	-1: preload("res://assets/13RedCrossBackground.png"),
+	1: preload("res://assets/13GreenCircleBackground.png")
+}
 
 func _ready():
 	reset()
@@ -59,18 +63,24 @@ func move_ai():
 	var y = int(result[2])
 	$GameState.board[x][y] = player
 	$GameState.current_player = -player
-	present_board()
 	if $GameState.is_win():
 		print("THE WINNER IS " + str(player))
 		$GameState.current_player = 0
 	if $GameState.is_draw():
 		print("THE GAME IS DRAW")
 		$GameState.current_player = 0
+	present_board()
 
 func present_board():
 	for i in range(3):
 		for j in range(3):
 			buttons[i][j].texture_normal = TEXTURES[$GameState.board[i][j]]
+	if $GameState.win_coordinates:
+		print("PRINTING WIN")
+		for coordinates in $GameState.win_coordinates:
+			var x = coordinates[0]
+			var y = coordinates[1]
+			buttons[x][y].texture_normal = WIN_TEXTURES[$GameState.board[x][y]]
 
 func _on_FieldButton1_pressed():
 	move_player(0, 0)
