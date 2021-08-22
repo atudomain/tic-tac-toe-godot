@@ -18,25 +18,36 @@ onready var WIN_TEXTURES = {
 	1: preload("res://assets/13GreenCircleBackground.png")
 }
 
-func _process(delta):
-	if Input.is_action_just_released("mouse_button_left"):
+func _input(event):
+	if event.is_action_released("mouse_button_left"):
 		emit_signal("mouse_button_left_released")
-	if $GameState.current_player == 0:
-		if Input.is_action_pressed("mouse_button_left"):
+		print("BUTTON_RELEASED")
+		if get_node_or_null("CanvasLayer"):
+			$CanvasLayer.queue_free()
+		if $GameState.current_player == 0:
 			reset()
+
+func disable_buttons():
+	for button_row in buttons:
+		for button in button_row:
+			button.disabled = true
+	
+func enable_buttons():
+	for button_row in buttons:
+		for button in button_row:
+			button.disabled = false
 
 func _ready():
 	reset()
 
 func reset():
-	if $GameState.current_player == 0:
-		yield(self, "mouse_button_left_released")
 	$GameState.reset()
 	randomize()
 	var percent = randf()
 	if percent < 0.5:
 		move_ai()
 	present_board()
+	enable_buttons()
 
 func move_player(coordinate_x, coordinate_y):
 	if $GameState.board[coordinate_x][coordinate_y] != 0:
@@ -54,10 +65,12 @@ func move_ai():
 	var player = $GameState.current_player
 	if $GameState.is_draw():
 		print("THE GAME IS DRAW")
+		disable_buttons()
 		$GameState.current_player = 0
 		return
 	if $GameState.is_win():
 		print("THE WINNER IS " + str(player))
+		disable_buttons()
 		$GameState.current_player = 0
 		return
 	var board_representation: PoolStringArray = []
@@ -81,9 +94,11 @@ func move_ai():
 	$GameState.current_player = -player
 	if $GameState.is_win():
 		print("THE WINNER IS " + str(player))
+		disable_buttons()
 		$GameState.current_player = 0
 	if $GameState.is_draw():
 		print("THE GAME IS DRAW")
+		disable_buttons()
 		$GameState.current_player = 0
 	present_board()
 
