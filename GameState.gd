@@ -4,6 +4,8 @@ extends Node
 onready var current_player = -1
 onready var win_coordinates = []
 
+onready var os = OS.get_name()
+
 var board = [
 	[0, 0, 0], 
 	[0, 0, 0], 

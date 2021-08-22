@@ -55,7 +55,12 @@ func move_ai():
 		for j in range(3):
 			board_representation.append(str($GameState.board[i][j]))
 	var output = []
-	OS.execute('engine/engine', board_representation, true, output)
+	if $GameState.os == "X11":
+		OS.execute('./engine.out', board_representation, true, output)
+	elif $GameState.os == "Windows":
+		OS.execute('engine.exe', board_representation, true, output)
+	else:
+		get_tree().quit()
 	var result = output[0].split(' ')
 	print("ENGINE RESPONSE")
 	print(result)
