@@ -6,6 +6,7 @@
 margin_right = 130.0
 margin_bottom = 130.0
 rect_min_size = Vector2( 130, 130 )
+mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 shortcut_in_tooltip = false

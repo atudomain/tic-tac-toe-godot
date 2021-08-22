@@ -1,5 +1,7 @@
 extends Node2D
 
+signal mouse_button_left_released
+
 onready var buttons = [
 	[$GridContainer/FieldButton1, $GridContainer/FieldButton2, $GridContainer/FieldButton3],
 	[$GridContainer/FieldButton4, $GridContainer/FieldButton5, $GridContainer/FieldButton6],
@@ -16,10 +18,19 @@ onready var WIN_TEXTURES = {
 	1: preload("res://assets/13GreenCircleBackground.png")
 }
 
+func _process(delta):
+	if Input.is_action_just_released("mouse_button_left"):
+		emit_signal("mouse_button_left_released")
+	if $GameState.current_player == 0:
+		if Input.is_action_pressed("mouse_button_left"):
+			reset()
+
 func _ready():
 	reset()
 
 func reset():
+	if $GameState.current_player == 0:
+		yield(self, "mouse_button_left_released")
 	$GameState.reset()
 	randomize()
 	var percent = randf()
